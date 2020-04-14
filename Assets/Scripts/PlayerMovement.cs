@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float turnSpeed = 20f;
+    public GameObject GameEnd;
+    public Text BrokenCompass;
 
     Animator m_Animator;
     Rigidbody m_Rigidbody;
@@ -18,6 +21,9 @@ public class PlayerMovement : MonoBehaviour
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
         m_AudioSource = GetComponent<AudioSource>();
+        Vector3 startPos = transform.position;
+        Vector3 endPos = GameEnd.transform.position;
+        BrokenCompass.text = "Calculating Where to go";
     }
 
     // Update is called once per frame
@@ -33,7 +39,19 @@ public class PlayerMovement : MonoBehaviour
         bool isWalking = hasHorizontalInput || hasVerticalInput;
         m_Animator.SetBool("IsWalking", isWalking);
 
-        if(isWalking)
+        Vector3 d = transform.position - GameEnd.transform.position;
+        d.Normalize();
+        Vector3 end = GameEnd.transform.position;
+        end.Normalize();
+        float val = Vector3.Dot(d, end);
+        if (val < -0.995f)
+        {
+            BrokenCompass.text = "End is to Right!";
+        } else
+        {
+            BrokenCompass.text = "Not Sure Where";
+        }
+        if (isWalking)
         {
             if(!m_AudioSource.isPlaying)
             {
