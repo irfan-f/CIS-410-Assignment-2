@@ -6,8 +6,15 @@ public class Observer : MonoBehaviour
 {
     public Transform player;
     public GameEnding gameEnding;
+    public ParticleSystem particles;
 
     bool m_IsPlayerInRange;
+
+    void Start()
+    {
+        particles = GetComponent<ParticleSystem>();
+        particles.Play();
+    }
 
     void OnTriggerEnter(Collider other)
     {
