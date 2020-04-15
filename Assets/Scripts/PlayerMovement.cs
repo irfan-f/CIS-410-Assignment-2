@@ -44,7 +44,11 @@ public class PlayerMovement : MonoBehaviour
         Vector3 end = GameEnd.transform.position;
         end.Normalize();
         float val = Vector3.Dot(d, end);
-        if (val < -0.995f)
+        Debug.Log(val);
+        if (transform.position.x >=8.9)
+        {
+            BrokenCompass.text = "End is to Right!"; // Error correction
+        } else if (val < -0.99f)
         {
             BrokenCompass.text = "End is to Right!";
         } else
